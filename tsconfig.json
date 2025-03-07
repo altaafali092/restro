@@ -114,5 +114,5 @@
         },
         "jsx": "react-jsx"
     },
-    "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/pages/admin/FoodItem/Edit.jsx"]
+    "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/pages/admin/FoodItem/Edit.tsx"]
 }

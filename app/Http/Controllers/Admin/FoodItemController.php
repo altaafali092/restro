@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FoodItem\StoreFoodItemRequest;
+use App\Http\Requests\FoodItem\UpdateFoodItemRequest;
 use App\Models\FoodItem;
 use App\Models\FoodSubCategory;
 use Illuminate\Http\Request;
@@ -16,7 +18,7 @@ class FoodItemController extends Controller
     public function index()
     {
         $foodSubCategories = FoodSubCategory::where('status', 1)->latest()->get();
-        $foodItems = FoodItem::latest()->get();
+        $foodItems = FoodItem::with('foodSubCategory')->latest()->get();
         return Inertia::render('admin/FoodItem/Index',[
             'foodItems' =>fn()=> $foodItems,
             'foodSubCategories' => fn()=> $foodSubCategories,
@@ -34,9 +36,10 @@ class FoodItemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreFoodItemRequest $request)
     {
-        //
+        FoodItem::create($request->validated());
+        return back();
     }
 
     /**
@@ -50,17 +53,22 @@ class FoodItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(FoodItem $foodItem)
     {
-        //
+        $foodSubCategories=FoodSubCategory::all();
+        return Inertia::render('admin/FoodItem/Edit',[
+            'foodItem' => fn() => $foodItem,
+            'foodSubCategories' => fn() => $foodSubCategories,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateFoodItemRequest $request, FoodItem $foodItem)
     {
-        //
+        $foodItem->update($request->validated());
+        return back();
     }
 
     /**

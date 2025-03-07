@@ -21,8 +21,8 @@ export interface FoodCategory {
     name: string,
     price: number,
     description: string,
-    image: string | null;
-    status: boolean;
-    is_available: boolean;
+    image: string[] | null;
+    status: 0|1;
+    is_available: 0|1;
   }
 
